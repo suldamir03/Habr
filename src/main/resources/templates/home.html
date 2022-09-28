@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>Habr</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Oswald:wght@500&family=Roboto:wght@300;500;900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+
+
+    <section>
+        <h1>Habr 2.0</h1>
+
+        <div sec:authorize="isAuthenticated()">
+            <h2 th:text="${'Hello, ' + user.getUsername()}"></h2>
+
+        </div>
+        <a th:href="@{/login}">Sign in</a>
+        <a th:href="@{/logout}">Sing out</a> <br>
+        <a th:href="@{/reg}">Don't have a account? Create it!</a>
+        <br>
+        <br>
+        <form th:action="@{/posts/add}" method="post" th:object="${addpost}">
+            <textarea placeholder="Write your header" rows="3" maxlength="80px" cols="40"
+                      style="margin-top: 10px;" th:field="*{header}"></textarea><br>
+
+            <textarea placeholder="Write your post text" rows="8" cols="40"
+                      style="margin-top: 10px;" th:field="*{text}"></textarea><br>
+<!--            <input type="text" th:field="*{text}" placeholder="Write your post text" style="padding: 20px"><br>-->
+            <input type="text" th:field="*{string}" placeholder="Write your tags"><br>
+
+            <button type="submit" >Send</button>
+        </form>
+        <br>
+        <div th:each="post : ${posts}">
+            <hr>
+            <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getHeader()}"></a><br><br>
+            <a th:href="@{/users/{id}(id=${post.getUser().getId()})}" th:text="${post.getUser().getLogin()}"></a>
+            <p th:text="${post.getFormatDate() + ' ' + post.getFormatTime()}"></p>
+            <div th:each="tag : ${post.getTag()}">
+                <span th:text="${'#' + tag.getName()}"></span>
+
+            </div>
+            <p th:text="${post.getText()}"></p>
+            <p th:text="${'Comments: ' + post.getCommentList().size()}"></p>
+            <!--<form th:action="@{posts/{id}/like(id=${post.getId()})}" method="post">
+                <button type="submit" th:text="${post.getLikes()}">
+
+                </button>
+            </form>-->
+            <!--<div>
+                <form th:action="@{/posts/{id}/comments/new(id=${post.getId()})}" method="post" th:object="${comm}">
+                    <input type="text" th:field="*{text}" placeholder="Write your comment"><br>
+                    <button type="submit" >Send
+                    </button>
+                </form>
+            </div>-->
+
+            <!--
+            Comments
+            <div th:each="comment : ${post.getCommentList()}" style="margin-left: 50px">
+               <a href="#" th:text="${comment.getUser().getLogin() + ' ' + comment.getFormatDate() + ' ' + comment.getFormatTime()}"></a>
+                <p th:text="${comment.getText()}"></p>
+                &lt;!&ndash;<form th:action="@{comments/{id}/like(id=${comment.getId()})}" method="post">
+                    <button type="submit" th:text="${comment.getLikes()}">
+
+                    </button>
+                </form>&ndash;&gt;
+            </div>-->
+        </div>
+    </section>
+
+
+</body>
+</html>

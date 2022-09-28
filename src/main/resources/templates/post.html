@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add post</title>
+</head>
+<body>
+    <a th:href="@{/home}">Return to home page</a>
+    <h2 th:text="${post.getHeader()}"></h2>
+    <a th:href="@{/users/{id}(id=${post.getUser().getId()})}" th:text="${post.getUser().getLogin()}"></a>
+    <div th:each="tag : ${post.getTag()}">
+        <p th:text="${'#' + tag.getName()} + ' '"></p>
+
+    </div>
+    <p th:text="${post.getText()}"></p>
+
+    <hr>
+    <div>
+        <form th:action="@{/posts/{id}/comments/new(id=${post.getId()})}" method="post" th:object="${comm}">
+                        <input type="text" th:field="*{text}" placeholder="Write your comment"><br>
+                        <button type="submit" >Send
+                        </button>
+        </form>
+    </div>
+
+
+    <div th:each="comment : ${post.getCommentList()}" style="margin-left: 50px">
+       <a th:href="@{/users/{id}(id=${post.getUser().getId()})}"th:text="${comment.getUser().getLogin()}"></a>
+        <p th:text="${comment.getFormatDate() + ' ' + comment.getFormatTime()}"></p>
+        <p th:text="${comment.getText()}"></p>
+        <!--<form th:action="@{comments/{id}/like(id=${comment.getId()})}" method="post">
+            <button type="submit" th:text="${comment.getLikes()}">
+
+            </button>
+        </form>-->
+    </div>
+</body>
+</html>

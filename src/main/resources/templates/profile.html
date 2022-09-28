@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.getLogin()}"></title>
+</head>
+<body>
+    <a th:href="@{/home}">Return to home page</a>
+
+    <h4 th:text="${user.getLogin()}"></h4>
+    <div th:each="role : ${user.getRoles()}">
+        <p th:text="${role.getAuthority()}"></p>
+    </div>
+    <br>
+    <div th:each="post :${user.getPosts()}">
+        <hr>
+        <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getHeader()}"></a><br><br>
+        <a th:href="@{/users/{id}(id=${post.getUser().getId()})}" th:text="${post.getUser().getLogin()}"></a>
+        <p th:text="${post.getFormatDate() + ' ' + post.getFormatTime()}"></p>
+        <div th:each="tag : ${post.getTag()}">
+            <span th:text="${'#' + tag.getName()}"></span>
+
+        </div>
+        <p th:text="${post.getText()}"></p>
+        <p th:text="${'Comments: ' + post.getCommentList().size()}"></p>
+
+    </div>
+</body>
+</html>
