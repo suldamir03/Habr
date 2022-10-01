@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.suleimenov.Habr.Repository.RoleRepo;
 import ru.suleimenov.Habr.Repository.UserRepo;
 import ru.suleimenov.Habr.entity.Role;
@@ -29,6 +30,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
         return userRepo.findUserByLogin(username).orElse(null);
     }
+    @Transactional
     public boolean registerDefaultUser(User user) {
         if (loadUserByUsername(user.getUsername()) != null){
             return false;
@@ -45,5 +47,9 @@ public class UserService implements UserDetailsService {
         if (user.isPresent()){
             return user.get();
         }else return null;
+    }
+
+    public void save(User user){
+        userRepo.save(user);
     }
 }

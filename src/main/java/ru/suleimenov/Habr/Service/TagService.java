@@ -2,6 +2,7 @@ package ru.suleimenov.Habr.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.suleimenov.Habr.Repository.TagRepo;
 import ru.suleimenov.Habr.entity.Tag;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 public class TagService {
     @Autowired
     private TagRepo tagRepo;
-
+    @Transactional
     public void save(Tag tag){
         if (findByName(tag) == true){
             tagRepo.save(tag);
@@ -28,5 +29,12 @@ public class TagService {
         if (tag1.isPresent()){
             return tag1.get();
         }else return null;
+    }
+
+    public Tag findTagById(Long id){
+        Optional<Tag> tag = tagRepo.findById(id);
+        if (tag.isPresent()){
+            return tag.get();
+        }else return tagRepo.findById(1L).get();
     }
 }

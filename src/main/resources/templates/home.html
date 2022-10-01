@@ -18,9 +18,10 @@
         <h1>Habr 2.0</h1>
 
         <div sec:authorize="isAuthenticated()">
-            <h2 th:text="${'Hello, ' + user.getUsername()}"></h2>
+            <a th:href="@{users/{id}(id=${user.getId()})}" th:text="${'Hello, ' + user.getLogin()}" style="color: black; font-style: unset; font-size: 20px"></a>
 
         </div>
+        <br>
         <a th:href="@{/login}">Sign in</a>
         <a th:href="@{/logout}">Sing out</a> <br>
         <a th:href="@{/reg}">Don't have a account? Create it!</a>
@@ -44,16 +45,21 @@
             <a th:href="@{/users/{id}(id=${post.getUser().getId()})}" th:text="${post.getUser().getLogin()}"></a>
             <p th:text="${post.getFormatDate() + ' ' + post.getFormatTime()}"></p>
             <div th:each="tag : ${post.getTag()}">
-                <span th:text="${'#' + tag.getName()}"></span>
+                <a th:href="@{/posts/orderByTag/{id}(id=${tag.getId()})}" th:text="${'#' + tag.getName()}"></a>
 
             </div>
             <p th:text="${post.getText()}"></p>
             <p th:text="${'Comments: ' + post.getCommentList().size()}"></p>
-            <!--<form th:action="@{posts/{id}/like(id=${post.getId()})}" method="post">
-                <button type="submit" th:text="${post.getLikes()}">
+            <form th:action="@{posts/{id}/like(id=${post.getId()})}" method="post">
+                <button type="submit" th:text="${'Likes: ' + post.getLikeCount()}">
 
                 </button>
-            </form>-->
+            </form>
+            <form th:action="@{posts/{id}/fav(id=${post.getId()})}" method="post">
+                <button type="submit" th:text="${'Favored: ' + post.getFavoritesCount()}">
+
+                </button>
+            </form>
             <!--<div>
                 <form th:action="@{/posts/{id}/comments/new(id=${post.getId()})}" method="post" th:object="${comm}">
                     <input type="text" th:field="*{text}" placeholder="Write your comment"><br>

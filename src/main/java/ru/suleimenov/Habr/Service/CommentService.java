@@ -2,6 +2,7 @@ package ru.suleimenov.Habr.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.suleimenov.Habr.Repository.CommentRepo;
 import ru.suleimenov.Habr.Repository.PostRepo;
 import ru.suleimenov.Habr.Repository.UserRepo;
@@ -21,15 +22,16 @@ public class CommentService {
     private UserRepo userRepo;
     @Autowired
     private PostRepo postRepo;
-
+    @Transactional
     public void save(Comment comment){
         commentRepo.save(comment);
     }
-
+    @Transactional
     public Comment findById(Long id){
 
         return commentRepo.findById(id).get();
     }
+    @Transactional
     public Comment findByAll(Post post, User user, LocalDate localDate, LocalTime localTime){
         Optional<Comment> comment = commentRepo.findCommentByPostAndUserAndDateAndTime(post,user, localDate, localTime);
         if (comment.isPresent()){
@@ -37,7 +39,7 @@ public class CommentService {
         }else return null;
 
     }
-
+    @Transactional
     public Comment saveComment(Comment comment, User user, Long post_id){
         Post post1 = postRepo.findById(post_id).orElse(null);
         comment.setUser(user);

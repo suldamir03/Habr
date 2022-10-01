@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <p>Edit post</p>
+
+
+    <form th:action="@{/posts/{id}/edit(id=${post.getId()})}" method="post" th:object="${post}">
+            <textarea placeholder="Write your header" rows="3" maxlength="80px" cols="40"
+                      style="margin-top: 10px;" th:field="*{header}"></textarea><br>
+
+        <textarea placeholder="Write your post text" rows="8" cols="40"
+                  style="margin-top: 10px;" th:field="*{text}"></textarea><br>
+        <!--            <input type="text" th:field="*{text}" placeholder="Write your post text" style="padding: 20px"><br>-->
+        <input type="text" th:field="*{string}" placeholder="Write your tags"><br>
+
+        <button type="submit" >Send</button>
+    </form>
+</body>
+</html>

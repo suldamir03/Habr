@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order By tag</title>
+</head>
+<body>
+<a th:href="@{/home}">Return to home page</a>
+
+<h3 th:text="${'Posts with tag: ' + tag.getName()}"></h3>
+
+<div th:each="post :${posts}">
+    <hr>
+    <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getHeader()}"></a><br><br>
+    <a th:href="@{/users/{id}(id=${post.getUser().getId()})}" th:text="${post.getUser().getLogin()}"></a>
+    <p th:text="${post.getFormatDate() + ' ' + post.getFormatTime()}"></p>
+    <div th:each="tag : ${post.getTag()}">
+        <span th:text="${'#' + tag.getName()}"></span>
+
+    </div>
+    <p th:text="${post.getText()}"></p>
+    <p th:text="${'Comments: ' + post.getCommentList().size()}"></p>
+    <form th:action="@{/posts/{id}/like(id=${post.getId()})}" method="post">
+        <button type="submit" th:text="${post.getLikeCount()}">
+
+        </button>
+    </form>
+</div>
+</body>
+</html>

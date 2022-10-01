@@ -1,3 +1,4 @@
+<!--
 <configuration>
 
     <property name="HOME_LOG" value="/var/log/proj3ct.io/habr/app.log"/>
@@ -7,11 +8,11 @@
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>/var/log/proj3ct.io/habr/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
-            <!-- each archived file, size max 10MB -->
+            &lt;!&ndash; each archived file, size max 10MB &ndash;&gt;
             <maxFileSize>10MB</maxFileSize>
-            <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
+            &lt;!&ndash; total size of all archive files, if total size > 20GB, it will delete old archived file &ndash;&gt;
             <totalSizeCap>1GB</totalSizeCap>
-            <!-- 60 days to keep -->
+            &lt;!&ndash; 60 days to keep &ndash;&gt;
             <maxHistory>60</maxHistory>
         </rollingPolicy>
 
@@ -32,4 +33,4 @@
         <appender-ref ref="FILE-ROLLING"/>
     </root>
 
-</configuration>
+</configuration>-->

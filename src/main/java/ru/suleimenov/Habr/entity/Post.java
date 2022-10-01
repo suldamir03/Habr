@@ -2,6 +2,7 @@ package ru.suleimenov.Habr.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -37,7 +38,21 @@ public class Post {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private Set<Comment> commentList;
+    @Value("0")
+    @Column(name = "likes")
+    private int likeCount;
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Like> likes;
+
     private String string;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Favorites> favorites;
+    @Value("0")
+    @Column(name = "favorites")
+    private int favoritesCount;
 
 
 
@@ -51,6 +66,18 @@ public class Post {
     }
     public void addTag(Tag tag1){
         this.tag.add(tag1);
+    }
+
+    public void addLike(boolean isLiked){
+        if (isLiked == true){
+            likeCount--;
+        }else likeCount++;
+    }
+
+    public void addFavorites(boolean isFavorites){
+        if (isFavorites == true){
+            favoritesCount--;
+        }else favoritesCount++;
     }
 
 
@@ -72,6 +99,7 @@ public class Post {
         String formattedDate = this.time.format(myFormatObj);
         return formattedDate;
     }
+
 
 
     public Long getUserId() {
