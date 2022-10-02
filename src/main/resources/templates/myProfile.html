@@ -36,7 +36,7 @@
     <!--<form th:action="" method="get">
         <button type="submit">Edit post</button>
     </form>-->
-    <a th:href="@{posts/{id}/edit(id=${post.getId()})}">Edit post</a>
+    <a th:href="@{/posts/{id}/edit(id=${post.getId()})}">Edit post</a>
 
     <br>
     <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getHeader()}"></a><br><br>

@@ -30,9 +30,7 @@
         <!--<form th:action="" method="get">
             <button type="submit">Edit post</button>
         </form>-->
-        <a th:href="@{posts/{id}/edit(id=${post.getId()})}">Edit post</a>
 
-        <br>
         <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getHeader()}"></a><br><br>
         <a th:href="@{/users/{id}(id=${post.getUser().getId()})}" th:text="${post.getUser().getLogin()}"></a>
         <p th:text="${post.getFormatDate() + ' ' + post.getFormatTime()}"></p>

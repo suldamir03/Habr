@@ -91,11 +91,9 @@ public class PostController {
     public String postEdit(Model model, @PathVariable("id") Long id, @AuthenticationPrincipal User user){
         Optional<Post> post = postService.findById(id);
 
-
-
         if (user.getId() == post.get().getUserId()){
             post.get().setUser(user);
-            model.addAttribute("post", post);
+            model.addAttribute("post", post.get());
             return "editPost";
         }else {
             return "redirect:/posts/{id}";
@@ -108,9 +106,9 @@ public class PostController {
     public String postEdit(@ModelAttribute("post") Post post, @ModelAttribute("user") User user){
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAa user.getId()" + user.getId());
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAa post.get().getUserId()" + post.getUserId());
-        if (user.getId() != post.getUserId()){
+        /*if (user.getId() != post.getUserId()){
             return "redirect:/posts/{id}";
-        }
+        }*/
         postService.updatePost(post, user);
         return "redirect:/post/{id}";
     }
