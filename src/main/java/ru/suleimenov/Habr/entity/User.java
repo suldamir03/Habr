@@ -55,6 +55,12 @@ public class User implements UserDetails {
     private List<Favorites> favorites;
 
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private UserConfiguration userConfiguration;
+
+
+
     public void addRole(Role role) {
         this.roles.add(role);
     }

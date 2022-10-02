@@ -9,12 +9,14 @@
 
 
 
-    <form method="post" th:action="@{/users/{id}/update(id=${user.getId()})}" th:object="${user}">
-        User name : <input type="text" th:field="*{login}"><br>
-        password : <input type="text" th:field="*{pass}"><br>
-        First name: <input type="text" th:field="*{first_name}"><br>
-        Last name: <input type="text" th:field="*{last_name}"><br>
-        <button type="submit">Update information</button>
+    <form method="post" th:action="@{/users/{id}/configure(id=${conf.getId()})}" th:object="${conf}">
+        nameHiding: <input type="checkbox" th:checked="${conf.nameHiding}">  <!--th:filed="*{nameHiding}"--><br>
+        favHiding: <input type="checkbox" th:checked="${conf.favHiding}"> <!--th:filed="*{favHiding}" --><br>
+        subHiding: <input type="checkbox" th:checked="${conf.subHiding}"> <!--th:filed="*{subHiding}"--><br>
+        <button type="submit">Configure</button>
+
     </form>
+
+
 </body>
 </html>

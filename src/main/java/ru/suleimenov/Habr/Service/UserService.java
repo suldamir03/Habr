@@ -7,9 +7,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.suleimenov.Habr.Repository.RoleRepo;
+import ru.suleimenov.Habr.Repository.UserConfigurationRepo;
 import ru.suleimenov.Habr.Repository.UserRepo;
 import ru.suleimenov.Habr.entity.Role;
 import ru.suleimenov.Habr.entity.User;
+import ru.suleimenov.Habr.entity.UserConfiguration;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
@@ -26,6 +28,9 @@ public class UserService implements UserDetailsService {
     PasswordEncoder passwordEncoder;*/
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private UserConfigurationRepo userConfigurationRepo;
     @Override
     public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
         return userRepo.findUserByLogin(username).orElse(null);
@@ -38,6 +43,9 @@ public class UserService implements UserDetailsService {
 //        user.setPass(passwordEncoder.encode(user.getPassword()));
 
         user.setRoles(Collections.singletonList(roleRepo.findById(1L).get()));
+        UserConfiguration userConfiguration = new UserConfiguration();
+        userConfiguration.setUser(user);
+        user.setUserConfiguration(userConfiguration);
         userRepo.save(user);
         return true;
     }
@@ -51,5 +59,16 @@ public class UserService implements UserDetailsService {
 
     public void save(User user){
         userRepo.save(user);
+    }
+
+    public UserConfiguration getUserConfig(Long id){
+        Optional<UserConfiguration> userConfiguration = userConfigurationRepo.findById(id);
+        if (userConfiguration.isPresent()) {
+            return userConfiguration.get();
+        }else return new UserConfiguration();
+    }
+
+    public void saveUserConfig(UserConfiguration userConfiguration){
+        userConfigurationRepo.save(userConfiguration);
     }
 }

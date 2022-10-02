@@ -33,7 +33,8 @@
 
             <textarea placeholder="Write your post text" rows="8" cols="40"
                       style="margin-top: 10px;" th:field="*{text}"></textarea><br>
-<!--            <input type="text" th:field="*{text}" placeholder="Write your post text" style="padding: 20px"><br>-->
+            <!--TODO: file upload
+            <input type="file" name="file">-->
             <input type="text" th:field="*{string}" placeholder="Write your tags"><br>
 
             <button type="submit" >Send</button>
@@ -48,6 +49,10 @@
                 <a th:href="@{/posts/orderByTag/{id}(id=${tag.getId()})}" th:text="${'#' + tag.getName()}"></a>
 
             </div>
+            <!--TODO: file upload
+            <div th:if="${post.filename}">
+                <img th:src="@{/img/{filename}(filename=${post.getFilename()})}" width="250px" height="250px">
+            </div>-->
             <p th:text="${post.getText()}"></p>
             <p th:text="${'Comments: ' + post.getCommentList().size()}"></p>
             <form th:action="@{posts/{id}/like(id=${post.getId()})}" method="post">

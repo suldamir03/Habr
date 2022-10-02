@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.getLogin()}"></title>
+</head>
+<body>
+<p> User's own page</p>
+<a th:href="@{/home}">Return to home page</a>
+
+
+<div>
+    <p th:text="${user.first_name} ? ${'Full Name : ' + user.getFirst_name() + ' ' + user.getLast_name()} : ''"></p>
+</div>
+
+<span class="hidden-xs" style="color: red" sec:authentication="name"></span>
+
+
+<p th:text="${'Login: ' + user.getLogin()}"></p>
+<div th:each="role : ${user.getRoles()}">
+    <p th:text="${'Role: ' + role.getAuthority()}"></p>
+</div>
+
+<form th:action="@{/users/{id}/configure(id=${user.getId()})}" method="get">
+    <button type="submit">Configure privacy</button>
+</form>
+<br>
+<form th:action="@{/users/{id}/update(id=${user.getId()})}" method="get">
+    <button type="submit">Update user info</button>
+</form>
+<br>
+<h3> My posts: </h3>
+<div th:each="post :${user.getPosts()}">
+
+    <hr>
+    <!--<form th:action="" method="get">
+        <button type="submit">Edit post</button>
+    </form>-->
+    <a th:href="@{posts/{id}/edit(id=${post.getId()})}">Edit post</a>
+
+    <br>
+    <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getHeader()}"></a><br><br>
+    <a th:href="@{/users/{id}(id=${post.getUser().getId()})}" th:text="${post.getUser().getLogin()}"></a>
+    <p th:text="${post.getFormatDate() + ' ' + post.getFormatTime()}"></p>
+    <div th:each="tag : ${post.getTag()}">
+        <span th:text="${'#' + tag.getName()}"></span>
+
+    </div>
+    <p th:text="${post.getText()}"></p>
+    <p th:text="${'Comments: ' + post.getCommentList().size()}"></p>
+    <form th:action="@{posts/{id}/like(id=${post.getId()})}" method="post">
+        <button type="submit" th:text="${'Likes: ' + post.getLikeCount()}">
+
+        </button>
+    </form>
+
+    <p th:text="${'Favored: ' + post.getFavoritesCount()}"></p>
+
+
+</div>
+<hr>
+<h3>My favors:</h3>
+<div th:each="favor : ${user.getFavorites()}">
+
+    <a th:href="@{/posts/{id}(id=${favor.getPost().getId()})}" th:text="${favor.getPost().getHeader()}"></a><br><br>
+    <a th:href="@{/users/{id}(id=${favor.getPost().getUser().getId()})}" th:text="${favor.getPost().getUser().getLogin()}"></a>
+    <p th:text="${favor.getPost().getFormatDate() + ' ' + favor.getPost().getFormatTime()}"></p>
+    <div th:each="tag : ${favor.getPost().getTag()}">
+        <span th:text="${'#' + tag.getName()}"></span>
+
+    </div>
+    <p th:text="${favor.getPost().getText()}"></p>
+    <p th:text="${'Comments: ' + favor.getPost().getCommentList().size()}"></p>
+    <form th:action="@{posts/{id}/like(id=${favor.getPost().getId()})}" method="post">
+        <button type="submit" th:text="${'Likes: ' + favor.getPost().getLikeCount()}">
+
+        </button>
+    </form>
+    <form th:action="@{posts/{id}/fav(id=${favor.getPost().getId()})}" method="post">
+        <button type="submit" th:text="${'Favored: ' + favor.getPost().getFavoritesCount()}">
+
+        </button>
+    </form>
+</div>
+</body>
+</html>

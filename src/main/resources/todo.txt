@@ -1,8 +1,13 @@
-Do the favorites,
-Edit of posts -- ---- - ---- -
+******* Цели на близжайшее время:  *******
+
 Add configuration of encapsulation of person data --- - - I start it
+Можно попробовать сделать отдельную страницу для юера где будет вся его инфа и отдельную для левых пацанов
+
+
+
+******* Долгосрочные цели :  *******
+Edit of posts -- ---- - ---- долгий ящик
+
 Normal text editor
 Normal saving of text
 Add saving of images
-
-Можно попробовать сделать отдельную страницу для юера где будет вся его инфа и отдельную для левых пацанов

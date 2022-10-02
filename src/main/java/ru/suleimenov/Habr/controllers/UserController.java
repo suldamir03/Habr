@@ -15,6 +15,7 @@ import ru.suleimenov.Habr.Service.UserService;
 import ru.suleimenov.Habr.entity.Comment;
 import ru.suleimenov.Habr.entity.Post;
 import ru.suleimenov.Habr.entity.User;
+import ru.suleimenov.Habr.entity.UserConfiguration;
 
 
 @Controller
@@ -29,29 +30,65 @@ public class UserController {
     @Autowired
     private TagService tagService;
 
-
+    //USER VIEW PAGE
     @GetMapping("/users/{id}")
-    public String userProfile(Model model,@PathVariable("id") Long id){
+    public String userProfile(Model model,@PathVariable("id") Long id, @AuthenticationPrincipal User user){
+        if (user.getId() == id){
+            model.addAttribute("user", userService.findById(id));
+            return "myProfile";
+        }
         model.addAttribute("user", userService.findById(id));
         return "profile";
     }
 
+    // USER privacy configuration
     @GetMapping("/users/{id}/configure")
     public String confAcc(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal User user){
         if (id == user.getId()){
+            //TODO: do it
             model.addAttribute("user" ,user);
+
+            model.addAttribute("conf", user.getUserConfiguration());
 
             return "conf";
         } else return "redirect:/users/{id}";
     }
 
-    @PostMapping("/users/{id}/update")
-    public String updateUserInfo(@PathVariable("id") Long id, @AuthenticationPrincipal User user, @ModelAttribute("user") User user1){
-        if (id != user.getId()){
+    @PostMapping("/users/{id}/configure")
+    public String confAcc(@PathVariable("id") Long id, @AuthenticationPrincipal User user_conn, @ModelAttribute("conf")UserConfiguration userConfiguration) {
+        if (id == user_conn.getId()){
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  +userConfiguration.isFavHiding() + userConfiguration.isNameHiding());
+            user_conn.setUserConfiguration(userConfiguration);
+            userService.save(user_conn);
+            userService.saveUserConfig(userConfiguration);
             return "redirect:/users/{id}";
+        }
+
+        return "redirect:/home";
+    }
+
+    //USER UPDATE INFO
+
+    @GetMapping("/users/{id}/update")
+    public String updateUserInfo(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal User user){
+        if (id == user.getId()){
+            //TODO: do it
+            model.addAttribute("user" ,user);
+
+            return "update";
+        } else return "redirect:/users/{id}";
+    }
+    @PostMapping("/users/{id}/update")
+    public String updateUserInfo(@PathVariable("id") Long id, @AuthenticationPrincipal User user_conn, @ModelAttribute("user")User user_model){
+        if (id != user_conn.getId()){
+            return "redirect:/home";
 
         }
-        userService.save(user1);
+        /*userConfiguration.setUser(user);
+        user.setUserConfiguration(userConfiguration);*/
+        userService.save(user_model);
         return "redirect:/users/{id}";
     }
+
+    //
 }
