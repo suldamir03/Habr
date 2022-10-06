@@ -1,0 +1,20 @@
+#Server
+server:
+  port: 8085
+
+#Jpa and DB
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: root
+    username: postgres
+    url: jdbc:postgresql://localhost:8080/habr
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+
+
+
+

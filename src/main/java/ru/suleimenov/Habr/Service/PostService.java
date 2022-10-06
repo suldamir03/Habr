@@ -1,8 +1,6 @@
 package ru.suleimenov.Habr.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.suleimenov.Habr.Repository.FavoritesRepo;
@@ -14,7 +12,6 @@ import ru.suleimenov.Habr.entity.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

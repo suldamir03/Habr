@@ -1,4 +1,13 @@
 ******* Цели на близжайшее время:  *******
+OAuth Sec
+Migration of Db
+Create some file where will be all tables like
+            Create table if not exist.....
+Optimization of code, like there some places where I can choose not the easiest way, but faster
+And add exception handler
+Error page
+Subs
+Make like or fav button not available for creator
 
 
 
